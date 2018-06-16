@@ -1,9 +1,18 @@
+import { either, flatten, reject } from 'ramda'
+
 const canvas = document.createElement('canvas')
 const context = canvas.getContext('2d')
 
 document.body.appendChild(canvas)
 canvas.width = window.innerWidth - 100
 canvas.height = window.innerWidth - 100
+
+const getCoords = (width, height) =>
+  flatten(
+    Array.from(Array(width)).map((_, x) =>
+      Array.from(Array(height)).map((_, y) => ({ x, y }))
+    )
+  )
 
 const randomInt = max => Math.floor(Math.random() * Math.floor(max))
 
@@ -28,11 +37,17 @@ const overflows = (width, height) => circle =>
 
 const overflowsCanvas = overflows(canvas.width, canvas.height)
 
+const isEqualCoords = coordsA => coordsB =>
+  coordsA.x === coordsB.x && coordsA.y === coordsB.y
+
+const coordsDistance = (coordsA, coordsB) =>
+  Math.hypot(coordsB.x - coordsA.x, coordsB.y - coordsA.y)
+
+const isCoordsInCircle = circle => coords =>
+  circle.radius > coordsDistance(circle.coords, coords)
+
 const circlesDistance = (circleA, circleB) =>
-  Math.hypot(
-    circleB.coords.x - circleA.coords.x,
-    circleB.coords.y - circleA.coords.y
-  )
+  coordsDistance(circleA.coords, circleB.coords)
 
 const circlesIntersect = circleA => circleB =>
   circlesDistance(circleA, circleB) < circleA.radius + circleB.radius
@@ -40,29 +55,38 @@ const circlesIntersect = circleA => circleB =>
 const increaseRadius = circle =>
   Object.assign({}, circle, { radius: circle.radius + 1 })
 
-const animateCircles = (circles, circle) => () => {
+const animateCircles = (coords, circles, circle) => () => {
   const shouldStop =
     overflowsCanvas(increaseRadius(circle)) ||
     circles.some(circlesIntersect(increaseRadius(circle)))
 
   if (shouldStop) {
+    const newCoords = reject(
+      either(isCoordsInCircle(circle), isEqualCoords(circle.coords)),
+      coords
+    )
+
     window.requestAnimationFrame(
-      animateCircles([...circles, circle], {
-        coords: randomCoords(canvas.width, canvas.height),
-        radius: 0,
-      })
+      animateCircles(
+        newCoords,
+        circle.radius > 0 ? [...circles, circle] : circles,
+        {
+          coords: newCoords[randomInt(newCoords.length)],
+          radius: 0,
+        }
+      )
     )
   } else {
     context.clearRect(0, 0, canvas.width, canvas.height)
     ;[...circles, circle].map(drawCircle)
     window.requestAnimationFrame(
-      animateCircles(circles, increaseRadius(circle))
+      animateCircles(coords, circles, increaseRadius(circle))
     )
   }
 }
 
 window.requestAnimationFrame(
-  animateCircles([], {
+  animateCircles(getCoords(canvas.width, canvas.height), [], {
     coords: randomCoords(canvas.width, canvas.height),
     radius: 0,
   })

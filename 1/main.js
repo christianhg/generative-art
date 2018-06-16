@@ -1,4 +1,4 @@
-import { either, flatten, reject } from 'ramda'
+import { __, any, compose, either, flatten, reject } from 'ramda'
 
 const canvas = document.createElement('canvas')
 const context = canvas.getContext('2d')
@@ -55,12 +55,20 @@ const circlesIntersect = circleA => circleB =>
 const increaseRadius = circle =>
   Object.assign({}, circle, { radius: circle.radius + 1 })
 
-const animateCircles = (coords, circles, circle) => () => {
-  const shouldStop =
-    overflowsCanvas(increaseRadius(circle)) ||
-    circles.some(circlesIntersect(increaseRadius(circle)))
+const cannotGrow = circles =>
+  compose(
+    either(
+      compose(
+        any(__, circles),
+        circlesIntersect
+      ),
+      overflowsCanvas
+    ),
+    increaseRadius
+  )
 
-  if (shouldStop) {
+const animateCircles = (coords, circles, circle) => () => {
+  if (cannotGrow(circles)(circle)) {
     const newCoords = reject(
       either(isCoordsInCircle(circle), isEqualCoords(circle.coords)),
       coords

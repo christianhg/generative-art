@@ -37,9 +37,13 @@ const circlesDistance = (circleA, circleB) =>
 const circlesIntersect = circleA => circleB =>
   circlesDistance(circleA, circleB) < circleA.radius + circleB.radius
 
+const increaseRadius = circle =>
+  Object.assign({}, circle, { radius: circle.radius + 1 })
+
 const animateCircles = (circles, circle) => () => {
   const shouldStop =
-    overflowsCanvas(circle) || circles.some(circlesIntersect(circle))
+    overflowsCanvas(increaseRadius(circle)) ||
+    circles.some(circlesIntersect(increaseRadius(circle)))
 
   if (shouldStop) {
     window.requestAnimationFrame(
@@ -52,10 +56,7 @@ const animateCircles = (circles, circle) => () => {
     context.clearRect(0, 0, canvas.width, canvas.height)
     ;[...circles, circle].map(drawCircle)
     window.requestAnimationFrame(
-      animateCircles(
-        circles,
-        Object.assign({}, circle, { radius: circle.radius + 1 })
-      )
+      animateCircles(circles, increaseRadius(circle))
     )
   }
 }

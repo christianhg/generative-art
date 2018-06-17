@@ -35,10 +35,10 @@ const drawCircle = ({ coords, radius }) => {
 }
 
 const overflows = (width, height) => circle =>
-  circle.coords.x - circle.radius < 0 ||
-  circle.coords.x + circle.radius > width ||
-  circle.coords.y - circle.radius < 0 ||
-  circle.coords.y + circle.radius > height
+  circle.coords.x - circle.radius <= 0 ||
+  circle.coords.x + circle.radius >= width ||
+  circle.coords.y - circle.radius <= 0 ||
+  circle.coords.y + circle.radius >= height
 
 const overflowsCanvas = overflows(canvas.width, canvas.height)
 

@@ -1,6 +1,7 @@
 {
   "scripts": {
     "dev": "parcel --no-hmr index.html",
+    "dist": "parcel build index.html",
     "prettier": "prettier --write *.{css,js}"
   },
   "devDependencies": {

@@ -1,4 +1,4 @@
-import { __, any, compose, either, flatten, reject } from 'ramda'
+import { __, any, compose, either, flatten, inc, reject } from 'ramda'
 
 const canvas = document.createElement('canvas')
 const context = canvas.getContext('2d')
@@ -7,10 +7,15 @@ document.body.appendChild(canvas)
 canvas.width = window.innerWidth - 100
 canvas.height = window.innerWidth - 100
 
+const createArray = compose(
+  Array.from,
+  Array
+)
+
 const getCoords = (width, height) =>
   flatten(
-    Array.from(Array(width)).map((_, x) =>
-      Array.from(Array(height)).map((_, y) => ({ x, y }))
+    createArray(inc(width)).map((_, x) =>
+      createArray(inc(height)).map((_, y) => ({ x, y }))
     )
   )
 

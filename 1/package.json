@@ -1,12 +1,10 @@
 {
   "scripts": {
     "dev": "parcel --no-hmr index.html",
-    "dist": "parcel build index.html",
-    "prettier": "prettier --write *.{css,js}"
+    "dist": "parcel build index.html"
   },
   "devDependencies": {
     "parcel-bundler": "^1.9.0",
-    "prettier": "^1.13.5",
     "ramda": "^0.25.0"
   }
 }

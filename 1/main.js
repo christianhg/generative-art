@@ -1,4 +1,11 @@
-import { __, any, compose, either, flatten, inc, reject } from 'ramda'
+import { any, compose, either, reject, __ } from 'ramda'
+import {
+  coordsDistance,
+  getCoords,
+  isEqualCoords,
+  randomCoords,
+  randomInt,
+} from '../core'
 
 const canvas = document.createElement('canvas')
 const context = canvas.getContext('2d')
@@ -6,25 +13,6 @@ const context = canvas.getContext('2d')
 document.body.appendChild(canvas)
 canvas.width = window.innerWidth - 100
 canvas.height = window.innerWidth - 100
-
-const createArray = compose(
-  Array.from,
-  Array
-)
-
-const getCoords = (width, height) =>
-  flatten(
-    createArray(inc(width)).map((_, x) =>
-      createArray(inc(height)).map((_, y) => ({ x, y }))
-    )
-  )
-
-const randomInt = max => Math.floor(Math.random() * Math.floor(max))
-
-const randomCoords = (width, height) => ({
-  x: randomInt(width),
-  y: randomInt(height),
-})
 
 const drawCircle = ({ coords, radius }) => {
   context.beginPath()
@@ -41,12 +29,6 @@ const overflows = (width, height) => circle =>
   circle.coords.y + circle.radius >= height
 
 const overflowsCanvas = overflows(canvas.width, canvas.height)
-
-const isEqualCoords = coordsA => coordsB =>
-  coordsA.x === coordsB.x && coordsA.y === coordsB.y
-
-const coordsDistance = (coordsA, coordsB) =>
-  Math.hypot(coordsB.x - coordsA.x, coordsB.y - coordsA.y)
 
 const isCoordsInCircle = circle => coords =>
   circle.radius > coordsDistance(circle.coords, coords)

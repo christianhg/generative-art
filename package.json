@@ -3,8 +3,8 @@
     "coverage": "cat ./coverage/lcov.info | codecov",
     "dev": "parcel --no-hmr index.html",
     "dist": "npm run prettier-production && npm run test && parcel build index.html",
-    "prettier": "prettier --write {*,**/*}.{css,js}",
-    "prettier-production": "prettier --list-different {*,**/*}.{css,js}",
+    "prettier": "prettier --write {*,**/*}.{css,js,md}",
+    "prettier-production": "prettier --list-different {*,**/*}.{css,js,md}",
     "test": "nyc --all ava"
   },
   "babel": {

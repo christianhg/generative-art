@@ -4,7 +4,7 @@ import {
   getCoords,
   isEqualCoords,
   randomCoords,
-  randomInt,
+  randomElement,
 } from '../common/core'
 
 const canvas = document.createElement('canvas')
@@ -66,7 +66,7 @@ const animateCircles = (coords, circles, circle) => () => {
         newCoords,
         circle.radius > 0 ? [...circles, circle] : circles,
         {
-          coords: newCoords[randomInt(newCoords.length)],
+          coords: randomElement(newCoords),
           radius: 0,
         }
       )

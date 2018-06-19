@@ -24,3 +24,5 @@ export const randomCoords = (width, height) => ({
   x: randomInt(width),
   y: randomInt(height),
 })
+
+export const randomElement = xs => xs[randomInt(xs.length)]

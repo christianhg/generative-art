@@ -1,5 +1,5 @@
 import { any, compose, either, min, reject, __ } from 'ramda'
-import { getCoords, randomCoords, randomInt } from '../common/core'
+import { getCoords, randomCoords, randomElement } from '../common/core'
 import {
   createSquare,
   increaseWidth,
@@ -56,7 +56,7 @@ const animate = (coords, squares, square) => () => {
         animate(
           newCoords,
           squareArea(square) > 0 ? [...squares, square] : squares,
-          createSquare(newCoords[randomInt(newCoords.length)], 0)
+          createSquare(randomElement(newCoords), 0)
         )
       )
     }

@@ -1,5 +1,25 @@
 language: node_js
 node_js:
 - node
+addons:
+  ssh_known_hosts:
+  - 37.139.24.127
+branches:
+  only:
+  - master
+env:
+  global:
+  - ARTIFACT=dist.tgz
+  - DIST_DIR=dist
+  - REMOTE_APP_DIR=/var/www/gletsjer.dk
+  - REMOTE_USER=travis
+  - REMOTE_HOST=37.139.24.127
+before_install:
+- openssl aes-256-cbc -K $encrypted_5b12e4e65027_key -iv $encrypted_5b12e4e65027_iv
+  -in travis.enc -out travis -d
 script: npm run dist
+before_script:
+- chmod 600 travis && mv travis ~/.ssh/id_rsa
+after_script:
+- "./deploy.sh"
 after_success: npm run report-coverage

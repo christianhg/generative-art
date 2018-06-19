@@ -1,4 +1,4 @@
-import { any, compose, either, reject, __ } from 'ramda'
+import { any, compose, either, map, reject, __ } from 'ramda'
 import {
   coordsDistance,
   getCoords,
@@ -73,7 +73,7 @@ const animateCircles = (coords, circles, circle) => () => {
     )
   } else {
     context.clearRect(0, 0, canvas.width, canvas.height)
-    ;[...circles, circle].map(drawCircle)
+    map(drawCircle, [...circles, circle])
     window.requestAnimationFrame(
       animateCircles(coords, circles, increaseRadius(circle))
     )

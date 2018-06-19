@@ -1,4 +1,4 @@
-import { any, compose, either, min, reject, __ } from 'ramda'
+import { any, compose, either, map, min, reject, __ } from 'ramda'
 import { getCoords, randomCoords, randomElement } from '../common/core'
 import {
   createSquare,
@@ -62,7 +62,7 @@ const animate = (coords, squares, square) => () => {
     }
   } else {
     context.clearRect(0, 0, canvas.width, canvas.height)
-    ;[...squares, square].map(drawSquare)
+    map(drawSquare, [...squares, square])
     window.requestAnimationFrame(
       animate(coords, squares, increaseWidth(square))
     )

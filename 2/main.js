@@ -1,4 +1,4 @@
-import { any, compose, either, reject, __ } from 'ramda'
+import { any, compose, either, min, reject, __ } from 'ramda'
 import { getCoords, randomCoords, randomInt } from '../common/core'
 import {
   createSquare,
@@ -10,10 +10,11 @@ import {
 
 const canvas = document.createElement('canvas')
 const context = canvas.getContext('2d')
+const size = min(640, window.innerWidth - 100)
 
 document.body.appendChild(canvas)
-canvas.width = window.innerWidth - 100
-canvas.height = window.innerWidth - 100
+canvas.width = size
+canvas.height = size
 
 const drawSquare = ({ A, B, C, D }) => {
   context.strokeStyle = '#ffffff'

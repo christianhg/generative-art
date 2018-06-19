@@ -1,12 +1,11 @@
 {
   "scripts": {
-    "coverage": "cat ./coverage/lcov.info | codecov",
+    "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "dev": "parcel --no-hmr index.html",
     "dist": "npm run prettier-production && npm run test && parcel build index.html",
     "prettier": "prettier --write {*,**/*}.{css,js,md}",
     "prettier-production": "prettier --list-different {*,**/*}.{css,js,md}",
-    "report": "nyc report --reporter=json",
-    "test": "trash coverage && nyc --all ava && npm run report"
+    "test": "trash coverage && nyc --all ava"
   },
   "babel": {
     "plugins": [

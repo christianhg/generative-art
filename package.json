@@ -1,5 +1,7 @@
 {
   "scripts": {
+    "dev": "parcel --no-hmr index.html",
+    "dist": "parcel build index.html",
     "prettier": "prettier --write {*,**/*}.{css,js}",
     "test": "ava"
   },
@@ -18,6 +20,7 @@
     "babel-core": "^6.26.3",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "babel-register": "^6.26.0",
+    "parcel-bundler": "^1.9.2",
     "prettier": "^1.13.5",
     "ramda": "^0.25.0"
   }

@@ -6,7 +6,7 @@
     "prettier": "prettier --write {*,**/*}.{css,js,md}",
     "prettier-production": "prettier --list-different {*,**/*}.{css,js,md}",
     "report": "nyc report --reporter=json",
-    "test": "nyc --all ava && npm run report"
+    "test": "trash coverage && nyc --all ava && npm run report"
   },
   "babel": {
     "plugins": [
@@ -34,6 +34,7 @@
     "nyc": "^12.0.2",
     "parcel-bundler": "^1.9.2",
     "prettier": "^1.13.5",
-    "ramda": "^0.25.0"
+    "ramda": "^0.25.0",
+    "trash-cli": "^1.4.0"
   }
 }

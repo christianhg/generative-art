@@ -48,7 +48,6 @@ const cannotGrow = squares =>
   )
 
 const animate = (coords, squares, square) => () => {
-  console.log(coords.length)
   if (cannotGrow(squares)(square)) {
     const newCoords = reject(isCoordsInSquare(square), coords)
 

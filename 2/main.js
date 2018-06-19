@@ -1,12 +1,12 @@
 import { any, compose, either, reject, __ } from 'ramda'
-import { getCoords, randomCoords, randomInt } from '../core'
+import { getCoords, randomCoords, randomInt } from '../common/core'
 import {
   createSquare,
   increaseWidth,
   isCoordsInSquare,
   squareArea,
   squaresIntersect,
-} from '../squares'
+} from '../common/squares'
 
 const canvas = document.createElement('canvas')
 const context = canvas.getContext('2d')

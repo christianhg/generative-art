@@ -5,7 +5,7 @@ import {
   isEqualCoords,
   randomCoords,
   randomInt,
-} from '../core'
+} from '../common/core'
 
 const canvas = document.createElement('canvas')
 const context = canvas.getContext('2d')

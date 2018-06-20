@@ -17,7 +17,7 @@ canvas.width = size
 canvas.height = size
 
 const drawSquare = ({ A, B, C, D }) => {
-  context.strokeStyle = '#ffffff'
+  context.strokeStyle = `rgb(${A.x / 2},${A.y / 2},${C.y / 2})`
   context.beginPath()
   context.moveTo(A.x, A.y)
   context.lineTo(B.x, B.y)

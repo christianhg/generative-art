@@ -12,7 +12,7 @@ export const createShapeFiller = ({
   isBigEnough,
 }) => () => {
   const animate = (coords, shapes, shape) => () => {
-    if (cannotGrow(shapes)(shape)) {
+    if (cannotGrow(canvas, shapes)(shape)) {
       const newCoords = reject(isCoordsInShape(shape), coords)
 
       if (newCoords.length > 0) {

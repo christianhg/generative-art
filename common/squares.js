@@ -1,3 +1,17 @@
+import { any, compose, either, __ } from 'ramda'
+
+export const cannotGrow = (canvas, squares) =>
+  compose(
+    either(
+      compose(
+        any(__, squares),
+        squaresIntersect
+      ),
+      overflows(canvas.width, canvas.height)
+    ),
+    increaseWidth
+  )
+
 export const createSquare = width => centre => ({
   A: {
     x: centre.x - Math.round(width / 2),
@@ -45,6 +59,12 @@ export const increaseWidth = square => ({
     y: square.D.y + 1,
   },
 })
+
+export const overflows = (width, height) => square =>
+  square.A.x <= 0 ||
+  square.A.y <= 0 ||
+  square.C.x >= width ||
+  square.C.y >= height
 
 export const squareArea = square =>
   (square.D.y - square.A.y) * (square.B.x - square.A.x)

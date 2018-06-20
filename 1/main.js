@@ -38,14 +38,14 @@ const circlesIntersect = circleA => circleB =>
 const increaseRadius = circle =>
   Object.assign({}, circle, { radius: circle.radius + 1 })
 
-const cannotGrow = circles =>
+const cannotGrow = (canvas, circles) =>
   compose(
     either(
       compose(
         any(__, circles),
         circlesIntersect
       ),
-      overflowsCanvas
+      overflows(canvas.width, canvas.height)
     ),
     increaseRadius
   )

@@ -31,10 +31,32 @@ export const createSquare = width => centre => ({
   },
 })
 
-export const drawSquare = colorSquare => context => ({ A, B, C, D }) => {
-  context.strokeStyle = colorSquare({ A, B, C, D })
+export const decreaseSize = square => ({
+  A: {
+    x: square.A.x + 1,
+    y: square.A.y + 1,
+  },
+  B: {
+    x: square.B.x - 1,
+    y: square.B.y + 1,
+  },
+  C: {
+    x: square.C.x - 1,
+    y: square.C.y - 1,
+  },
+  D: {
+    x: square.D.x + 1,
+    y: square.D.y - 1,
+  },
+})
+
+export const drawSquare = colorSquare => context => square => {
+  const { A, B, C, D } = decreaseSize(square)
+
+  context.strokeStyle = colorSquare(square)
   context.beginPath()
   context.moveTo(A.x, A.y)
+  context.lineWidth = 2
   context.lineTo(B.x, B.y)
   context.lineTo(C.x, C.y)
   context.lineTo(D.x, D.y)

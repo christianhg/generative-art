@@ -21,9 +21,9 @@ createShapeFiller({
   cannotGrow,
   canvas,
   context,
-  createShape: createSquare(0),
+  createShape: createSquare(2),
   drawShape: drawSquare(() => '#ffffff'),
   increaseShape: increaseWidth,
   isCoordsInShape: isCoordsInSquare,
-  isBigEnough: square => squareArea(square) > 0,
+  isBigEnough: square => squareArea(square) >= 2,
 })()

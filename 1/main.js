@@ -1,4 +1,4 @@
-import { any, compose, either, map, reject, __ } from 'ramda'
+import { any, compose, either, map, min, reject, __ } from 'ramda'
 import {
   coordsDistance,
   getCoords,
@@ -9,10 +9,11 @@ import {
 
 const canvas = document.createElement('canvas')
 const context = canvas.getContext('2d')
+const size = min(640, window.innerWidth - 100)
 
 document.body.appendChild(canvas)
-canvas.width = window.innerWidth - 100
-canvas.height = window.innerWidth - 100
+canvas.width = size
+canvas.height = size
 
 const drawCircle = ({ coords, radius }) => {
   context.beginPath()

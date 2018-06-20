@@ -1,11 +1,6 @@
-import { any, compose, either, map, min, reject, __ } from 'ramda'
-import {
-  coordsDistance,
-  getCoords,
-  isEqualCoords,
-  randomCoords,
-  randomElement,
-} from '../common/core'
+import { any, compose, either, min, __ } from 'ramda'
+import { coordsDistance } from '../common/core'
+import { createShapeFiller } from '../common/shapeFiller'
 
 const canvas = document.createElement('canvas')
 const context = canvas.getContext('2d')
@@ -32,7 +27,7 @@ const overflows = (width, height) => circle =>
 const overflowsCanvas = overflows(canvas.width, canvas.height)
 
 const isCoordsInCircle = circle => coords =>
-  circle.radius > coordsDistance(circle.coords, coords)
+  circle.radius >= coordsDistance(circle.coords, coords)
 
 const circlesDistance = (circleA, circleB) =>
   coordsDistance(circleA.coords, circleB.coords)
@@ -55,35 +50,13 @@ const cannotGrow = circles =>
     increaseRadius
   )
 
-const animateCircles = (coords, circles, circle) => () => {
-  if (cannotGrow(circles)(circle)) {
-    const newCoords = reject(
-      either(isCoordsInCircle(circle), isEqualCoords(circle.coords)),
-      coords
-    )
-
-    window.requestAnimationFrame(
-      animateCircles(
-        newCoords,
-        circle.radius > 0 ? [...circles, circle] : circles,
-        {
-          coords: randomElement(newCoords),
-          radius: 0,
-        }
-      )
-    )
-  } else {
-    context.clearRect(0, 0, canvas.width, canvas.height)
-    map(drawCircle, [...circles, circle])
-    window.requestAnimationFrame(
-      animateCircles(coords, circles, increaseRadius(circle))
-    )
-  }
-}
-
-window.requestAnimationFrame(
-  animateCircles(getCoords(canvas.width, canvas.height), [], {
-    coords: randomCoords(canvas.width, canvas.height),
-    radius: 0,
-  })
-)
+createShapeFiller({
+  cannotGrow,
+  canvas,
+  context,
+  createShape: coords => ({ coords, radius: 0 }),
+  drawShape: drawCircle,
+  increaseShape: increaseRadius,
+  isCoordsInShape: isCoordsInCircle,
+  isBigEnough: circle => circle.radius > 0,
+})()

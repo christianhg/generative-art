@@ -1,4 +1,4 @@
-export const createSquare = (centre, width) => ({
+export const createSquare = width => centre => ({
   A: {
     x: centre.x - Math.round(width / 2),
     y: centre.y - Math.round(width / 2),

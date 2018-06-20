@@ -1,5 +1,4 @@
-import { any, compose, either, map, min, reject, __ } from 'ramda'
-import { getCoords, randomCoords, randomElement } from '../common/core'
+import { any, compose, either, min, __ } from 'ramda'
 import {
   createSquare,
   increaseWidth,
@@ -7,6 +6,7 @@ import {
   squareArea,
   squaresIntersect,
 } from '../common/squares'
+import { createShapeFiller } from '../common/shapeFiller'
 
 const canvas = document.createElement('canvas')
 const context = canvas.getContext('2d')
@@ -47,32 +47,13 @@ const cannotGrow = squares =>
     increaseWidth
   )
 
-const animate = (coords, squares, square) => () => {
-  if (cannotGrow(squares)(square)) {
-    const newCoords = reject(isCoordsInSquare(square), coords)
-
-    if (newCoords.length > 0) {
-      window.requestAnimationFrame(
-        animate(
-          newCoords,
-          squareArea(square) > 0 ? [...squares, square] : squares,
-          createSquare(randomElement(newCoords), 0)
-        )
-      )
-    }
-  } else {
-    context.clearRect(0, 0, canvas.width, canvas.height)
-    map(drawSquare, [...squares, square])
-    window.requestAnimationFrame(
-      animate(coords, squares, increaseWidth(square))
-    )
-  }
-}
-
-window.requestAnimationFrame(
-  animate(
-    getCoords(canvas.width, canvas.height),
-    [],
-    createSquare(randomCoords(canvas.width, canvas.height), 0)
-  )
-)
+createShapeFiller({
+  cannotGrow,
+  canvas,
+  context,
+  createShape: createSquare(0),
+  drawShape: drawSquare,
+  increaseShape: increaseWidth,
+  isCoordsInShape: isCoordsInSquare,
+  isBigEnough: square => squareArea(square) > 0,
+})()

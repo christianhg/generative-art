@@ -15,9 +15,6 @@ export const getCoords = (width, height) =>
     )
   )
 
-export const isEqualCoords = coordsA => coordsB =>
-  coordsA.x === coordsB.x && coordsA.y === coordsB.y
-
 export const randomInt = max => Math.floor(Math.random() * Math.floor(max))
 
 export const randomCoords = (width, height) => ({

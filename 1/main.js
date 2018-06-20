@@ -12,7 +12,8 @@ canvas.height = size
 
 const drawCircle = context => ({ coords, radius }) => {
   context.beginPath()
-  context.arc(coords.x, coords.y, radius, 0, Math.PI * 2)
+  context.lineWidth = 2
+  context.arc(coords.x, coords.y, radius - 2, 0, Math.PI * 2)
   context.closePath()
   context.strokeStyle = '#ffffff'
   context.stroke()
@@ -54,9 +55,9 @@ createShapeFiller({
   cannotGrow,
   canvas,
   context,
-  createShape: coords => ({ coords, radius: 0 }),
+  createShape: coords => ({ coords, radius: 2 }),
   drawShape: drawCircle,
   increaseShape: increaseRadius,
   isCoordsInShape: isCoordsInCircle,
-  isBigEnough: circle => circle.radius > 0,
+  isBigEnough: circle => circle.radius >= 2,
 })()

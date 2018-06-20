@@ -31,6 +31,17 @@ export const createSquare = width => centre => ({
   },
 })
 
+export const drawSquare = colorSquare => context => ({ A, B, C, D }) => {
+  context.strokeStyle = colorSquare({ A, B, C, D })
+  context.beginPath()
+  context.moveTo(A.x, A.y)
+  context.lineTo(B.x, B.y)
+  context.lineTo(C.x, C.y)
+  context.lineTo(D.x, D.y)
+  context.lineTo(A.x, A.y)
+  context.stroke()
+}
+
 export const isCoordsInSquare = square => coords =>
   square.A.x <= coords.x &&
   square.A.y <= coords.y &&

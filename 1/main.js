@@ -10,7 +10,7 @@ document.body.appendChild(canvas)
 canvas.width = size
 canvas.height = size
 
-const drawCircle = ({ coords, radius }) => {
+const drawCircle = context => ({ coords, radius }) => {
   context.beginPath()
   context.arc(coords.x, coords.y, radius, 0, Math.PI * 2)
   context.closePath()

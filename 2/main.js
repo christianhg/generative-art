@@ -3,6 +3,7 @@ import { createShapeFiller } from '../common/shapeFiller'
 import {
   cannotGrow,
   createSquare,
+  drawSquare,
   increaseWidth,
   isCoordsInSquare,
   squareArea,
@@ -16,23 +17,12 @@ document.body.appendChild(canvas)
 canvas.width = size
 canvas.height = size
 
-const drawSquare = ({ A, B, C, D }) => {
-  context.strokeStyle = '#ffffff'
-  context.beginPath()
-  context.moveTo(A.x, A.y)
-  context.lineTo(B.x, B.y)
-  context.lineTo(C.x, C.y)
-  context.lineTo(D.x, D.y)
-  context.lineTo(A.x, A.y)
-  context.stroke()
-}
-
 createShapeFiller({
   cannotGrow,
   canvas,
   context,
   createShape: createSquare(0),
-  drawShape: drawSquare,
+  drawShape: drawSquare(() => '#ffffff'),
   increaseShape: increaseWidth,
   isCoordsInShape: isCoordsInSquare,
   isBigEnough: square => squareArea(square) > 0,

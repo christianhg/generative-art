@@ -26,7 +26,7 @@ export const createShapeFiller = ({
       }
     } else {
       context.clearRect(0, 0, canvas.width, canvas.height)
-      map(drawShape, [...shapes, shape])
+      map(drawShape(context), [...shapes, shape])
       window.requestAnimationFrame(
         animate(coords, shapes, increaseShape(shape))
       )

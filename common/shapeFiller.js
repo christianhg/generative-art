@@ -11,6 +11,11 @@ export const createShapeFiller = ({
   isCoordsInShape,
   isBigEnough,
 }) => () => {
+  const draw = shapes => {
+    context.clearRect(0, 0, canvas.width, canvas.height)
+    map(drawShape(context), shapes)
+  }
+
   const animate = (coords, shapes, shape) => () => {
     if (cannotGrow(canvas, shapes)(shape)) {
       const newCoords = reject(isCoordsInShape(shape), coords)
@@ -25,8 +30,8 @@ export const createShapeFiller = ({
         )
       }
     } else {
-      context.clearRect(0, 0, canvas.width, canvas.height)
-      map(drawShape(context), [...shapes, shape])
+      draw([...shapes, shape])
+
       window.requestAnimationFrame(
         animate(coords, shapes, increaseShape(shape))
       )

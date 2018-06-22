@@ -18,6 +18,7 @@ canvas.width = size
 canvas.height = size
 
 createShapeFiller({
+  backgroundColor: '#ffffff',
   cannotGrow,
   canvas,
   context,

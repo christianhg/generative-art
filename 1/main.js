@@ -52,6 +52,7 @@ const cannotGrow = (canvas, circles) =>
   )
 
 createShapeFiller({
+  backgroundColor: '#0b0b0b',
   cannotGrow,
   canvas,
   context,

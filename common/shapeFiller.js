@@ -2,6 +2,7 @@ import { map, reject } from 'ramda'
 import { randomElement, getCoords, randomCoords } from './core'
 
 export const createShapeFiller = ({
+  backgroundColor,
   cannotGrow,
   canvas,
   context,
@@ -13,6 +14,8 @@ export const createShapeFiller = ({
 }) => () => {
   const draw = shapes => {
     context.clearRect(0, 0, canvas.width, canvas.height)
+    context.fillStyle = backgroundColor
+    context.fillRect(0, 0, canvas.width, canvas.height)
     map(drawShape(context), shapes)
   }
 

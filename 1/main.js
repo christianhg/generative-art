@@ -1,15 +1,12 @@
-import { any, compose, either, min, __ } from 'ramda'
+import { any, compose, either, __ } from 'ramda'
 import { padding } from '../common/bounds'
+import { createCanvas } from '../common/canvas'
 import { coordsDistance } from '../common/core'
 import { createShapeFiller } from '../common/shapeFiller'
 
-const canvas = document.createElement('canvas')
-const context = canvas.getContext('2d')
-const size = min(640, window.innerWidth)
+const { canvas, context } = createCanvas()
 
 document.body.appendChild(canvas)
-canvas.width = size
-canvas.height = size
 
 const drawCircle = context => ({ coords, radius }) => {
   context.beginPath()

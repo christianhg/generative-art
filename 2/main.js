@@ -1,5 +1,5 @@
-import { min } from 'ramda'
 import { padding } from '../common/bounds'
+import { createCanvas } from '../common/canvas'
 import { createShapeFiller } from '../common/shapeFiller'
 import {
   cannotGrow,
@@ -10,13 +10,9 @@ import {
   squareArea,
 } from '../common/squares'
 
-const canvas = document.createElement('canvas')
-const context = canvas.getContext('2d')
-const size = min(640, window.innerWidth)
+const { canvas, context } = createCanvas()
 
 document.body.appendChild(canvas)
-canvas.width = size
-canvas.height = size
 
 createShapeFiller({
   backgroundColor: '#0b0b0b',

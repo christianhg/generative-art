@@ -1,10 +1,11 @@
 import { any, compose, either, min, __ } from 'ramda'
+import { padding } from '../common/bounds'
 import { coordsDistance } from '../common/core'
 import { createShapeFiller } from '../common/shapeFiller'
 
 const canvas = document.createElement('canvas')
 const context = canvas.getContext('2d')
-const size = min(640, window.innerWidth - 100)
+const size = min(640, window.innerWidth)
 
 document.body.appendChild(canvas)
 canvas.width = size
@@ -19,11 +20,11 @@ const drawCircle = context => ({ coords, radius }) => {
   context.stroke()
 }
 
-const overflows = (width, height) => circle =>
-  circle.coords.x - circle.radius <= 0 ||
-  circle.coords.x + circle.radius >= width ||
-  circle.coords.y - circle.radius <= 0 ||
-  circle.coords.y + circle.radius >= height
+const overflows = bounds => circle =>
+  circle.coords.x - circle.radius <= bounds.A.x ||
+  circle.coords.x + circle.radius >= bounds.C.x ||
+  circle.coords.y - circle.radius <= bounds.A.y ||
+  circle.coords.y + circle.radius >= bounds.C.y
 
 const overflowsCanvas = overflows(canvas.width, canvas.height)
 
@@ -39,20 +40,21 @@ const circlesIntersect = circleA => circleB =>
 const increaseRadius = circle =>
   Object.assign({}, circle, { radius: circle.radius + 1 })
 
-const cannotGrow = (canvas, circles) =>
+const cannotGrow = (bounds, circles) =>
   compose(
     either(
       compose(
         any(__, circles),
         circlesIntersect
       ),
-      overflows(canvas.width, canvas.height)
+      overflows(bounds)
     ),
     increaseRadius
   )
 
 createShapeFiller({
   backgroundColor: '#0b0b0b',
+  bounds: padding(50, canvas),
   cannotGrow,
   canvas,
   context,

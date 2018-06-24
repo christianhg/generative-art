@@ -1,8 +1,9 @@
-import { map, reject } from 'ramda'
+import { either, map, reject } from 'ramda'
 import { randomElement, getCoords, randomCoords } from './core'
 
 export const createShapeFiller = ({
   backgroundColor,
+  bounds,
   cannotGrow,
   canvas,
   context,
@@ -20,7 +21,7 @@ export const createShapeFiller = ({
   }
 
   const animate = (coords, shapes, shape) => () => {
-    if (cannotGrow(canvas, shapes)(shape)) {
+    if (cannotGrow(bounds, shapes)(shape)) {
       const newCoords = reject(isCoordsInShape(shape), coords)
 
       if (newCoords.length > 0) {
@@ -41,11 +42,17 @@ export const createShapeFiller = ({
     }
   }
 
+  const coords = reject(
+    either(
+      coords => coords.x <= bounds.A.x,
+      coords => coords.y <= bounds.A.y,
+      coords => coords.x >= bounds.C.x,
+      coords => coords.y >= bounds.C.y
+    ),
+    getCoords(canvas.width, canvas.height)
+  )
+
   window.requestAnimationFrame(
-    animate(
-      getCoords(canvas.width, canvas.height),
-      [],
-      createShape(randomCoords(canvas.width, canvas.height))
-    )
+    animate(coords, [], createShape(randomElement(coords)))
   )
 }

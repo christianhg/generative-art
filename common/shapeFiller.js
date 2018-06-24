@@ -1,5 +1,6 @@
 import { either, map, reject } from 'ramda'
 import { randomElement, getCoords, randomCoords } from './core'
+import { inBounds } from './bounds'
 
 export const createShapeFiller = ({
   backgroundColor,
@@ -43,12 +44,7 @@ export const createShapeFiller = ({
   }
 
   const coords = reject(
-    either(
-      coords => coords.x <= bounds.A.x,
-      coords => coords.y <= bounds.A.y,
-      coords => coords.x >= bounds.C.x,
-      coords => coords.y >= bounds.C.y
-    ),
+    inBounds(bounds),
     getCoords(canvas.width, canvas.height)
   )
 

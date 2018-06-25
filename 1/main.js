@@ -1,4 +1,3 @@
-import { any, compose, either, __ } from 'ramda'
 import { padding } from '../common/bounds'
 import { createCanvas } from '../common/canvas'
 import { coordsDistance } from '../common/core'
@@ -23,41 +22,28 @@ const overflows = bounds => circle =>
   circle.coords.y - circle.radius <= bounds.A.y ||
   circle.coords.y + circle.radius >= bounds.C.y
 
-const overflowsCanvas = overflows(canvas.width, canvas.height)
-
 const isCoordsInCircle = circle => coords =>
   circle.radius >= coordsDistance(circle.coords, coords)
 
 const circlesDistance = (circleA, circleB) =>
   coordsDistance(circleA.coords, circleB.coords)
 
-const circlesIntersect = circleA => circleB =>
+const intersects = circleA => circleB =>
   circlesDistance(circleA, circleB) < circleA.radius + circleB.radius
 
 const increaseRadius = circle =>
   Object.assign({}, circle, { radius: circle.radius + 1 })
 
-const cannotGrow = (bounds, circles) =>
-  compose(
-    either(
-      compose(
-        any(__, circles),
-        circlesIntersect
-      ),
-      overflows(bounds)
-    ),
-    increaseRadius
-  )
-
 createShapeFiller({
   backgroundColor: '#0b0b0b',
   bounds: padding(50, canvas),
-  cannotGrow,
   canvas,
   context,
   createShape: coords => ({ coords, radius: 2 }),
   drawShape: drawCircle,
   increaseShape: increaseRadius,
+  intersects,
   isCoordsInShape: isCoordsInCircle,
   isBigEnough: circle => circle.radius >= 2,
+  overflows,
 })()

@@ -1,18 +1,19 @@
-import { either, map, reject } from 'ramda'
+import { any, compose, either, map, reject, __ } from 'ramda'
 import { randomElement, getCoords, randomCoords } from './core'
 import { inBounds } from './bounds'
 
 export const createShapeFiller = ({
   backgroundColor,
   bounds,
-  cannotGrow,
   canvas,
   context,
   createShape,
   drawShape,
   increaseShape,
+  intersects,
   isCoordsInShape,
   isBigEnough,
+  overflows,
 }) => () => {
   const draw = shapes => {
     context.clearRect(0, 0, canvas.width, canvas.height)
@@ -22,7 +23,18 @@ export const createShapeFiller = ({
   }
 
   const animate = (coords, shapes, shape) => () => {
-    if (cannotGrow(bounds, shapes)(shape)) {
+    const cannotGrow = compose(
+      either(
+        compose(
+          any(__, shapes),
+          intersects
+        ),
+        overflows(bounds)
+      ),
+      increaseShape
+    )
+
+    if (cannotGrow(shape)) {
       const newCoords = reject(isCoordsInShape(shape), coords)
 
       if (newCoords.length > 0) {

@@ -1,17 +1,3 @@
-import { any, compose, either, __ } from 'ramda'
-
-export const cannotGrow = (bounds, squares) =>
-  compose(
-    either(
-      compose(
-        any(__, squares),
-        squaresIntersect
-      ),
-      overflows(bounds)
-    ),
-    increaseWidth
-  )
-
 export const createSquare = width => centre => ({
   A: {
     x: centre.x - Math.round(width / 2),

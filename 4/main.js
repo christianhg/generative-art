@@ -15,12 +15,12 @@ const { canvas, context } = createCanvas()
 document.body.appendChild(canvas)
 
 createShapeFiller({
-  backgroundColor: '#0b0b0b',
+  backgroundColor: '#ffffff',
   bounds: padding(50, canvas),
   canvas,
   context,
   createShape: createCircle,
-  drawShape: drawCircle(() => '#ffffff'),
+  drawShape: drawCircle(() => '#0b0b0b'),
   increaseShape: increaseRadius,
   intersects: circlesIntersect,
   isCoordsInShape: isCoordsInCircle,

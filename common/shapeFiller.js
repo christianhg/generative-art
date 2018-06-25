@@ -1,4 +1,4 @@
-import { any, compose, either, map, reject, __ } from 'ramda'
+import { any, compose, either, filter, map, reject, __ } from 'ramda'
 import { randomElement, getCoords, randomCoords } from './core'
 import { inBounds } from './bounds'
 
@@ -55,7 +55,7 @@ export const createShapeFiller = ({
     }
   }
 
-  const coords = reject(
+  const coords = filter(
     inBounds(bounds),
     getCoords(canvas.width, canvas.height)
   )

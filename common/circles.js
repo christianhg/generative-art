@@ -31,6 +31,14 @@ const circlesDistance = (circleA, circleB) =>
 export const circlesIntersect = circleA => circleB =>
   circlesDistance(circleA, circleB) < circleA.radius + circleB.radius
 
+export const fillCircle = colorCircle => context => ({ coords, radius }) => {
+  context.fillStyle = colorCircle({ coords, radius })
+  context.beginPath()
+  context.arc(coords.x, coords.y, radius - 2, 0, Math.PI * 2)
+  context.closePath()
+  context.fill()
+}
+
 export const increaseRadius = circle =>
   Object.assign({}, circle, { radius: circle.radius + 1 })
 

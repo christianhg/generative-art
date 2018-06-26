@@ -13,18 +13,21 @@ test('createSquare', t => {
     B: { x: 7, y: 1 },
     C: { x: 7, y: 7 },
     D: { x: 1, y: 7 },
+    type: 'SQUARE',
   })
   t.deepEqual(createSquare(5)({ x: 4, y: 4 }), {
     A: { x: 1, y: 1 },
     B: { x: 7, y: 1 },
     C: { x: 7, y: 7 },
     D: { x: 1, y: 7 },
+    type: 'SQUARE',
   })
   t.deepEqual(createSquare(4)({ x: 4, y: 4 }), {
     A: { x: 2, y: 2 },
     B: { x: 6, y: 2 },
     C: { x: 6, y: 6 },
     D: { x: 2, y: 6 },
+    type: 'SQUARE',
   })
 })
 

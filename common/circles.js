@@ -1,6 +1,14 @@
 import { coordsDistance } from './core'
 
-export const createCircle = coords => ({ coords, radius: 2 })
+export const circleOverflowsCircle = outerCircle => innerCircle =>
+  coordsDistance(outerCircle.coords, innerCircle.coords) + innerCircle.radius >=
+  outerCircle.radius
+
+export const createCircle = radius => coords => ({
+  coords,
+  radius,
+  type: 'CIRCLE',
+})
 
 export const drawCircle = colorCircle => context => ({ coords, radius }) => {
   context.strokeStyle = colorCircle({ coords, radius })
@@ -11,11 +19,11 @@ export const drawCircle = colorCircle => context => ({ coords, radius }) => {
   context.stroke()
 }
 
-export const circleOverflows = bounds => circle =>
-  circle.coords.x - circle.radius <= bounds.A.x ||
-  circle.coords.x + circle.radius >= bounds.C.x ||
-  circle.coords.y - circle.radius <= bounds.A.y ||
-  circle.coords.y + circle.radius >= bounds.C.y
+export const circleOverflowsSquare = square => circle =>
+  circle.coords.x - circle.radius <= square.A.x ||
+  circle.coords.x + circle.radius >= square.C.x ||
+  circle.coords.y - circle.radius <= square.A.y ||
+  circle.coords.y + circle.radius >= square.C.y
 
 const circlesDistance = (circleA, circleB) =>
   coordsDistance(circleA.coords, circleB.coords)
@@ -25,6 +33,8 @@ export const circlesIntersect = circleA => circleB =>
 
 export const increaseRadius = circle =>
   Object.assign({}, circle, { radius: circle.radius + 1 })
+
+export const isCircle = shape => shape.type === 'CIRCLE'
 
 export const isCoordsInCircle = circle => coords =>
   circle.radius >= coordsDistance(circle.coords, coords)

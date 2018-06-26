@@ -1,4 +1,4 @@
-import { padding } from '../common/bounds'
+import { padSquare } from '../common/bounds'
 import { createCanvas } from '../common/canvas'
 import { createShapeFiller } from '../common/shapeFiller'
 import {
@@ -17,7 +17,12 @@ document.body.appendChild(canvas)
 
 createShapeFiller({
   backgroundColor: '#ffffff',
-  bounds: padding(50, canvas),
+  bounds: padSquare(50)(
+    createSquare(canvas.width)({
+      x: canvas.width / 2,
+      y: canvas.height / 2,
+    })
+  ),
   canvas,
   context,
   createShape: createSquare(2),

@@ -1,7 +1,7 @@
-import { padding } from '../common/bounds'
+import { padCircle } from '../common/bounds'
 import { createCanvas } from '../common/canvas'
 import {
-  circleOverflows,
+  circleOverflowsCircle,
   circlesIntersect,
   createCircle,
   drawCircle,
@@ -16,14 +16,19 @@ document.body.appendChild(canvas)
 
 createShapeFiller({
   backgroundColor: '#ffffff',
-  bounds: padding(50, canvas),
+  bounds: padCircle(50)(
+    createCircle(canvas.width / 2)({
+      x: canvas.width / 2,
+      y: canvas.height / 2,
+    })
+  ),
   canvas,
   context,
-  createShape: createCircle,
+  createShape: createCircle(2),
   drawShape: drawCircle(() => '#0b0b0b'),
   increaseShape: increaseRadius,
   intersects: circlesIntersect,
   isCoordsInShape: isCoordsInCircle,
   isBigEnough: circle => circle.radius >= 2,
-  overflows: circleOverflows,
+  overflows: circleOverflowsCircle,
 })()

@@ -15,6 +15,7 @@ export const createSquare = width => centre => ({
     x: centre.x - Math.round(width / 2),
     y: centre.y + Math.round(width / 2),
   },
+  type: 'SQUARE',
 })
 
 export const decreaseSize = square => ({
@@ -78,6 +79,8 @@ export const increaseWidth = square => ({
     y: square.D.y + 1,
   },
 })
+
+export const isSquare = shape => shape.type === 'SQUARE'
 
 export const overflows = bounds => square =>
   square.A.x <= bounds.A.x ||

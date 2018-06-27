@@ -31,6 +31,11 @@ const circlesDistance = (circleA, circleB) =>
 export const circlesIntersect = circleA => circleB =>
   circlesDistance(circleA, circleB) < circleA.radius + circleB.radius
 
+export const circlesTouch = circleA => circleB =>
+  isCircleInCircle(circleB)(Object.assign({}, circleA, { radius: 2 }))
+    ? circleOverflowsCircle(circleB)(circleA)
+    : circlesIntersect(circleA)(circleB)
+
 export const fillCircle = colorCircle => context => ({ coords, radius }) => {
   context.fillStyle = colorCircle({ coords, radius })
   context.beginPath()
@@ -44,5 +49,11 @@ export const increaseRadius = circle =>
 
 export const isCircle = shape => shape.type === 'CIRCLE'
 
+export const isCircleInCircle = circleA => circleB =>
+  circlesDistance(circleA, circleB) + circleB.radius < circleA.radius
+
 export const isCoordsInCircle = circle => coords =>
   circle.radius >= coordsDistance(circle.coords, coords)
+
+export const isCoordsOnCircle = circle => coords =>
+  circle.radius === Math.floor(coordsDistance(circle.coords, coords))

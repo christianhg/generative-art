@@ -3,6 +3,7 @@ import {
   createCircle,
   circleOverflowsCircle,
   circleOverflowsSquare,
+  isCircleInCircle,
 } from './circles'
 import { createSquare } from './squares'
 
@@ -48,4 +49,32 @@ test('createCircle', t => {
     radius: 4,
     type: 'CIRCLE',
   })
+})
+
+test('isCircleInCircle', t => {
+  t.false(
+    isCircleInCircle(createCircle(10)({ x: 10, y: 10 }))(
+      createCircle(11)({ x: 10, y: 10 })
+    )
+  )
+  t.false(
+    isCircleInCircle(createCircle(10)({ x: 10, y: 10 }))(
+      createCircle(10)({ x: 10, y: 10 })
+    )
+  )
+  t.true(
+    isCircleInCircle(createCircle(10)({ x: 10, y: 10 }))(
+      createCircle(9)({ x: 10, y: 10 })
+    )
+  )
+  t.false(
+    isCircleInCircle(createCircle(10)({ x: 10, y: 10 }))(
+      createCircle(2)({ x: 10, y: 22 })
+    )
+  )
+  t.false(
+    isCircleInCircle(createCircle(10)({ x: 10, y: 10 }))(
+      createCircle(2)({ x: 10, y: 23 })
+    )
+  )
 })

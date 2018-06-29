@@ -1,6 +1,6 @@
-import { any, compose, either, filter, map, reject, __ } from 'ramda'
-import { randomElement, getCoords, randomCoords } from './core'
+import { any, compose, either, filter, map, not, reject, __ } from 'ramda'
 import { inBounds } from './bounds'
+import { getCoords, randomElement } from './core'
 
 export const createShapeFiller = ({
   backgroundColor,
@@ -13,6 +13,7 @@ export const createShapeFiller = ({
   intersects,
   isCoordsInShape,
   isBigEnough,
+  margin,
   overflows,
 }) => () => {
   const draw = shapes => {
@@ -22,8 +23,8 @@ export const createShapeFiller = ({
     map(drawShape(context), shapes)
   }
 
-  const animate = (coords, shapes, shape) => () => {
-    const cannotGrow = compose(
+  const cannotGrow = shapes =>
+    compose(
       either(
         compose(
           any(__, shapes),
@@ -31,18 +32,39 @@ export const createShapeFiller = ({
         ),
         overflows(bounds)
       ),
-      increaseShape
+      increaseShape(1 + margin)
     )
 
-    if (cannotGrow(shape)) {
-      const newCoords = reject(isCoordsInShape(shape), coords)
+  const canGrow = shapes =>
+    compose(
+      not,
+      cannotGrow(shapes)
+    )
 
-      if (newCoords.length > 0) {
+  function getNextShape(canGrow, coords, tries = 1) {
+    const nextShape = createShape(randomElement(coords))
+    const newCoords = reject(isCoordsInShape(nextShape), coords)
+
+    return newCoords.length === 0 || tries > 200
+      ? { newCoords }
+      : canGrow(nextShape)
+        ? { newCoords, nextShape }
+        : getNextShape(canGrow, newCoords, tries + 1)
+  }
+
+  const animate = (coords, shapes, shape) => () => {
+    if (cannotGrow(shapes)(shape)) {
+      const { newCoords, nextShape } = getNextShape(
+        canGrow([...shapes, shape]),
+        reject(isCoordsInShape(increaseShape(margin)(shape)), coords)
+      )
+
+      if (newCoords.length > 0 && nextShape) {
         window.requestAnimationFrame(
           animate(
             newCoords,
             isBigEnough(shape) ? [...shapes, shape] : shapes,
-            createShape(randomElement(newCoords))
+            nextShape
           )
         )
       }
@@ -50,17 +72,17 @@ export const createShapeFiller = ({
       draw([...shapes, shape])
 
       window.requestAnimationFrame(
-        animate(coords, shapes, increaseShape(shape))
+        animate(coords, shapes, increaseShape(1)(shape))
       )
     }
   }
 
-  const coords = filter(
-    inBounds(bounds),
-    getCoords(canvas.width, canvas.height)
+  const { newCoords, nextShape } = getNextShape(
+    canGrow([]),
+    filter(inBounds(bounds), getCoords(canvas.width, canvas.height))
   )
 
-  window.requestAnimationFrame(
-    animate(coords, [], createShape(randomElement(coords)))
-  )
+  if (nextShape) {
+    window.requestAnimationFrame(animate(newCoords, [], nextShape))
+  }
 }

@@ -61,22 +61,22 @@ export const isCoordsInSquare = square => coords =>
   square.D.x <= coords.x &&
   square.D.y >= coords.y
 
-export const increaseWidth = square => ({
+export const increaseWidth = amount => square => ({
   A: {
-    x: square.A.x - 1,
-    y: square.A.y - 1,
+    x: square.A.x - amount,
+    y: square.A.y - amount,
   },
   B: {
-    x: square.B.x + 1,
-    y: square.B.y - 1,
+    x: square.B.x + amount,
+    y: square.B.y - amount,
   },
   C: {
-    x: square.C.x + 1,
-    y: square.C.y + 1,
+    x: square.C.x + amount,
+    y: square.C.y + amount,
   },
   D: {
-    x: square.D.x - 1,
-    y: square.D.y + 1,
+    x: square.D.x - amount,
+    y: square.D.y + amount,
   },
 })
 

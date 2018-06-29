@@ -14,7 +14,7 @@ export const drawCircle = colorCircle => context => ({ coords, radius }) => {
   context.strokeStyle = colorCircle({ coords, radius })
   context.beginPath()
   context.lineWidth = 2
-  context.arc(coords.x, coords.y, radius - 2, 0, Math.PI * 2)
+  context.arc(coords.x, coords.y, radius - 1, 0, Math.PI * 2)
   context.closePath()
   context.stroke()
 }
@@ -39,13 +39,13 @@ export const circlesTouch = circleA => circleB =>
 export const fillCircle = colorCircle => context => ({ coords, radius }) => {
   context.fillStyle = colorCircle({ coords, radius })
   context.beginPath()
-  context.arc(coords.x, coords.y, radius - 2, 0, Math.PI * 2)
+  context.arc(coords.x, coords.y, radius, 0, Math.PI * 2)
   context.closePath()
   context.fill()
 }
 
-export const increaseRadius = circle =>
-  Object.assign({}, circle, { radius: circle.radius + 1 })
+export const increaseRadius = amount => circle =>
+  Object.assign({}, circle, { radius: circle.radius + amount })
 
 export const isCircle = shape => shape.type === 'CIRCLE'
 

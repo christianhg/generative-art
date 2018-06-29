@@ -30,5 +30,6 @@ createShapeFiller({
   intersects: circlesIntersect,
   isCoordsInShape: isCoordsInCircle,
   isBigEnough: circle => circle.radius >= 2,
+  margin: 2,
   overflows: circleOverflowsCircle,
 })()

@@ -31,5 +31,6 @@ createShapeFiller({
   intersects: squaresIntersect,
   isCoordsInShape: isCoordsInSquare,
   isBigEnough: square => squareArea(square) >= 2,
+  margin: 2,
   overflows,
 })()

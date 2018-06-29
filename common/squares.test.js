@@ -33,7 +33,7 @@ test('createSquare', t => {
 
 test('increaseWidth', t => {
   t.deepEqual(
-    increaseWidth({
+    increaseWidth(1)({
       A: { x: 1, y: 1 },
       B: { x: 1, y: 1 },
       C: { x: 1, y: 1 },

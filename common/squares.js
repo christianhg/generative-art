@@ -19,6 +19,7 @@ export const createSquare = width => centre => ({
 })
 
 export const decreaseSize = square => ({
+  ...square,
   A: {
     x: square.A.x + 1,
     y: square.A.y + 1,
@@ -62,6 +63,7 @@ export const isCoordsInSquare = square => coords =>
   square.D.y >= coords.y
 
 export const increaseWidth = amount => square => ({
+  ...square,
   A: {
     x: square.A.x - amount,
     y: square.A.y - amount,

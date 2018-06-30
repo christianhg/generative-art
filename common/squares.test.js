@@ -2,6 +2,7 @@ import test from 'ava'
 import { all, none } from 'ramda'
 import {
   createSquare,
+  decreaseSize,
   increaseWidth,
   isCoordsInSquare,
   squaresIntersect,
@@ -31,6 +32,13 @@ test('createSquare', t => {
   })
 })
 
+test('decreaseSize', t => {
+  t.deepEqual(
+    decreaseSize(createSquare(4)({ x: 5, y: 5 })),
+    createSquare(2)({ x: 5, y: 5 })
+  )
+})
+
 test('increaseWidth', t => {
   t.deepEqual(
     increaseWidth(1)({
@@ -38,12 +46,14 @@ test('increaseWidth', t => {
       B: { x: 1, y: 1 },
       C: { x: 1, y: 1 },
       D: { x: 1, y: 1 },
+      type: 'SQUARE',
     }),
     {
       A: { x: 0, y: 0 },
       B: { x: 2, y: 0 },
       C: { x: 2, y: 2 },
       D: { x: 0, y: 2 },
+      type: 'SQUARE',
     }
   )
 })

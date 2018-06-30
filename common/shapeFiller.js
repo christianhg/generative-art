@@ -36,15 +36,15 @@ export const createShapeFiller = ({
       increaseShape(1 + margin)
     )
 
-  function getNextShape(canGrow, coords, tries = 1) {
+  function getNextShape(canGrow, coords) {
     const nextShape = createShape(randomElement(coords))
     const newCoords = reject(isCoordsInShape(nextShape), coords)
 
-    return newCoords.length === 0 || tries > 200
-      ? { newCoords }
+    return newCoords.length === 0
+      ? Promise.reject('Done')
       : canGrow(nextShape)
-        ? { newCoords, nextShape }
-        : getNextShape(canGrow, newCoords, tries + 1)
+        ? Promise.resolve({ newCoords, nextShape })
+        : getNextShape(canGrow, newCoords)
   }
 
   const animate = (coords, shapes, shape) => () => {
@@ -55,12 +55,10 @@ export const createShapeFiller = ({
         animate(coords, shapes, increaseShape(1)(shape))
       )
     } else {
-      const { newCoords, nextShape } = getNextShape(
+      getNextShape(
         canGrow([...shapes, shape]),
         reject(isCoordsInShape(increaseShape(margin)(shape)), coords)
-      )
-
-      if (newCoords.length > 0 && nextShape) {
+      ).then(({ newCoords, nextShape }) => {
         window.requestAnimationFrame(
           animate(
             newCoords,
@@ -68,16 +66,14 @@ export const createShapeFiller = ({
             nextShape
           )
         )
-      }
+      }, console.log)
     }
   }
 
-  const { newCoords, nextShape } = getNextShape(
+  getNextShape(
     canGrow([]),
     filter(inBounds(bounds), getCoords(canvas.width, canvas.height))
-  )
-
-  if (nextShape) {
+  ).then(({ newCoords, nextShape }) => {
     window.requestAnimationFrame(animate(newCoords, [], nextShape))
-  }
+  }, console.log)
 }

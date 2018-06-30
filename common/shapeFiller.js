@@ -23,8 +23,9 @@ export const createShapeFiller = ({
     map(drawShape(context), shapes)
   }
 
-  const cannotGrow = shapes =>
+  const canGrow = shapes =>
     compose(
+      not,
       either(
         compose(
           any(__, shapes),
@@ -33,12 +34,6 @@ export const createShapeFiller = ({
         overflows(bounds)
       ),
       increaseShape(1 + margin)
-    )
-
-  const canGrow = shapes =>
-    compose(
-      not,
-      cannotGrow(shapes)
     )
 
   function getNextShape(canGrow, coords, tries = 1) {
@@ -53,7 +48,13 @@ export const createShapeFiller = ({
   }
 
   const animate = (coords, shapes, shape) => () => {
-    if (cannotGrow(shapes)(shape)) {
+    if (canGrow(shapes)(shape)) {
+      draw([...shapes, shape])
+
+      window.requestAnimationFrame(
+        animate(coords, shapes, increaseShape(1)(shape))
+      )
+    } else {
       const { newCoords, nextShape } = getNextShape(
         canGrow([...shapes, shape]),
         reject(isCoordsInShape(increaseShape(margin)(shape)), coords)
@@ -68,12 +69,6 @@ export const createShapeFiller = ({
           )
         )
       }
-    } else {
-      draw([...shapes, shape])
-
-      window.requestAnimationFrame(
-        animate(coords, shapes, increaseShape(1)(shape))
-      )
     }
   }
 

@@ -5,4 +5,5 @@ dist
 node_modules
 
 *.lcov
+report.html
 yarn-error.log

@@ -2056,6 +2056,10 @@ duplexer3@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/duplexer3/-/duplexer3-0.1.4.tgz#ee01dd1cac0ed3cbc7fdbea37dc0a8f1ce002ce2"
 
+duplexer@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/duplexer/-/duplexer-0.1.1.tgz#ace6ff808c1ce66b57d1ebf97977acb02334cfc1"
+
 ecc-jsbn@~0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/ecc-jsbn/-/ecc-jsbn-0.1.1.tgz#0fc73a9ed5f0d53c38193398523ef7e543777505"
@@ -2659,6 +2663,13 @@ grapheme-breaker@^0.3.2:
   dependencies:
     brfs "^1.2.0"
     unicode-trie "^0.3.1"
+
+gzip-size@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/gzip-size/-/gzip-size-4.1.0.tgz#8ae096257eabe7d69c45be2b67c448124ffb517c"
+  dependencies:
+    duplexer "^0.1.1"
+    pify "^3.0.0"
 
 handlebars@^4.0.11:
   version "4.0.11"
@@ -4258,6 +4269,14 @@ parcel-bundler@^1.9.2:
     tomlify-j0.4 "^3.0.0"
     v8-compile-cache "^2.0.0"
     ws "^5.1.1"
+
+parcel-plugin-bundle-visualiser@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/parcel-plugin-bundle-visualiser/-/parcel-plugin-bundle-visualiser-1.1.2.tgz#da03f7041f839aa9a8cbb74966f5a499de663e14"
+  dependencies:
+    filesize "^3.6.0"
+    gzip-size "^4.1.0"
+    yargs "^11.0.0"
 
 parse-asn1@^5.0.0:
   version "5.1.1"
@@ -6103,7 +6122,7 @@ yargs-parser@^9.0.2:
   dependencies:
     camelcase "^4.1.0"
 
-yargs@11.1.0:
+yargs@11.1.0, yargs@^11.0.0:
   version "11.1.0"
   resolved "https://registry.yarnpkg.com/yargs/-/yargs-11.1.0.tgz#90b869934ed6e871115ea2ff58b03f4724ed2d77"
   dependencies:

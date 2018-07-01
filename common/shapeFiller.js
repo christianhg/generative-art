@@ -1,4 +1,14 @@
-import { any, compose, either, filter, map, not, reject, __ } from 'ramda'
+import {
+  any,
+  compose,
+  either,
+  filter,
+  ifElse,
+  map,
+  not,
+  reject,
+  __,
+} from 'ramda'
 import { inBounds } from './bounds'
 import { getCoords, randomElement } from './core'
 
@@ -38,16 +48,22 @@ export const createShapeFiller = ({
     )
 
   const getNextShape = (canGrow, coords, tries = 1) => {
-    const nextShape = createShape(randomElement(coords))
-    const newCoords = reject(isCoordsInShape(nextShape), coords)
-
-    return newCoords.length === 0
+    return coords.length === 0
       ? Promise.reject('Done')
       : tries > maxTries
         ? Promise.reject(`Aborted after ${maxTries} tries`)
-        : canGrow(nextShape)
-          ? Promise.resolve({ newCoords, nextShape })
-          : getNextShape(canGrow, newCoords, tries + 1)
+        : compose(
+            ifElse(
+              ({ nextShape }) => canGrow(nextShape),
+              ({ newCoords, nextShape }) =>
+                Promise.resolve({ newCoords, nextShape }),
+              ({ newCoords }) => getNextShape(canGrow, newCoords, tries + 1)
+            ),
+            nextShape => ({
+              newCoords: reject(isCoordsInShape(nextShape), coords),
+              nextShape,
+            })
+          )(createShape(randomElement(coords)))
   }
 
   const animate = (coords, shapes, shape) => () => {

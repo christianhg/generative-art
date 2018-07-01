@@ -14,6 +14,7 @@ export const createShapeFiller = ({
   isCoordsInShape,
   isBigEnough,
   margin,
+  maxTries = 1000,
   overflows,
 }) => () => {
   const draw = shapes => {
@@ -36,15 +37,17 @@ export const createShapeFiller = ({
       increaseShape(1 + margin)
     )
 
-  function getNextShape(canGrow, coords) {
+  function getNextShape(canGrow, coords, tries = 1) {
     const nextShape = createShape(randomElement(coords))
     const newCoords = reject(isCoordsInShape(nextShape), coords)
 
     return newCoords.length === 0
       ? Promise.reject('Done')
-      : canGrow(nextShape)
-        ? Promise.resolve({ newCoords, nextShape })
-        : getNextShape(canGrow, newCoords)
+      : tries > maxTries
+        ? Promise.reject(`Aborted after ${maxTries} tries`)
+        : canGrow(nextShape)
+          ? Promise.resolve({ newCoords, nextShape })
+          : getNextShape(canGrow, newCoords, tries + 1)
   }
 
   const animate = (coords, shapes, shape) => () => {

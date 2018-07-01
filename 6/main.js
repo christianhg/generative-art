@@ -12,7 +12,7 @@ import {
 } from '../common/circles'
 import { createShapeFiller } from '../common/shapeFiller'
 
-const { canvas, context } = createCanvas()
+const { canvas, context } = createCanvas(320)
 
 document.body.appendChild(canvas)
 

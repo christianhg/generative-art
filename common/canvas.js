@@ -1,9 +1,9 @@
 import { min } from 'ramda'
 
-export const createCanvas = () => {
+export const createCanvas = (width = 640) => {
   const canvas = document.createElement('canvas')
   const context = canvas.getContext('2d')
-  const size = min(640, window.innerWidth)
+  const size = min(width, window.innerWidth)
 
   canvas.width = size
   canvas.height = size

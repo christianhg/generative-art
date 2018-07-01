@@ -37,7 +37,7 @@ export const createShapeFiller = ({
       increaseShape(1 + margin)
     )
 
-  function getNextShape(canGrow, coords, tries = 1) {
+  const getNextShape = (canGrow, coords, tries = 1) => {
     const nextShape = createShape(randomElement(coords))
     const newCoords = reject(isCoordsInShape(nextShape), coords)
 

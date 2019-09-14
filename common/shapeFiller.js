@@ -51,19 +51,19 @@ export const createShapeFiller = ({
     return coords.length === 0
       ? Promise.reject('Done')
       : tries > maxTries
-        ? Promise.reject(`Aborted after ${maxTries} tries`)
-        : compose(
-            ifElse(
-              ({ nextShape }) => canGrow(nextShape),
-              ({ newCoords, nextShape }) =>
-                Promise.resolve({ newCoords, nextShape }),
-              ({ newCoords }) => getNextShape(canGrow, newCoords, tries + 1)
-            ),
-            nextShape => ({
-              newCoords: reject(isCoordsInShape(nextShape), coords),
-              nextShape,
-            })
-          )(createShape(randomElement(coords)))
+      ? Promise.reject(`Aborted after ${maxTries} tries`)
+      : compose(
+          ifElse(
+            ({ nextShape }) => canGrow(nextShape),
+            ({ newCoords, nextShape }) =>
+              Promise.resolve({ newCoords, nextShape }),
+            ({ newCoords }) => getNextShape(canGrow, newCoords, tries + 1)
+          ),
+          nextShape => ({
+            newCoords: reject(isCoordsInShape(nextShape), coords),
+            nextShape,
+          })
+        )(createShape(randomElement(coords)))
   }
 
   const animate = (coords, shapes, shape) => () => {

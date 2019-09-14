@@ -5,8 +5,8 @@ export const inBounds = bounds => coords =>
   isCircle(bounds)
     ? isCoordsInCircle(bounds)(coords)
     : isSquare(bounds)
-      ? isCoordsInSquare(bounds)(coords)
-      : false
+    ? isCoordsInSquare(bounds)(coords)
+    : false
 
 export const padCircle = padding => circle =>
   Object.assign({}, circle, { radius: circle.radius - padding })

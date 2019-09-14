@@ -1,6 +1,6 @@
-import { padSquare } from '../common/bounds'
-import { createCanvas } from '../common/canvas'
-import { createShapeFiller } from '../common/shapeFiller'
+import { padSquare } from '../common/bounds';
+import { createCanvas } from '../common/canvas';
+import { createShapeFiller } from '../common/shapeFiller';
 import {
   createSquare,
   drawSquare,
@@ -9,11 +9,11 @@ import {
   overflows,
   squareArea,
   squaresIntersect,
-} from '../common/squares'
+} from '../common/squares';
 
-const { canvas, context } = createCanvas()
+const { canvas, context } = createCanvas();
 
-document.body.appendChild(canvas)
+document.body.appendChild(canvas);
 
 createShapeFiller({
   backgroundColor: '#ffffff',
@@ -33,4 +33,4 @@ createShapeFiller({
   isBigEnough: square => squareArea(square) >= 2,
   margin: 2,
   overflows,
-})()
+})();

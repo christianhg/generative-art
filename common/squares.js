@@ -16,7 +16,7 @@ export const createSquare = width => centre => ({
     y: centre.y + Math.round(width / 2),
   },
   type: 'SQUARE',
-})
+});
 
 export const decreaseSize = square => ({
   ...square,
@@ -36,21 +36,21 @@ export const decreaseSize = square => ({
     x: square.D.x + 1,
     y: square.D.y - 1,
   },
-})
+});
 
 export const drawSquare = colorSquare => context => square => {
-  const { A, B, C, D } = decreaseSize(square)
+  const { A, B, C, D } = decreaseSize(square);
 
-  context.strokeStyle = colorSquare(square)
-  context.beginPath()
-  context.moveTo(A.x, A.y)
-  context.lineWidth = 2
-  context.lineTo(B.x, B.y)
-  context.lineTo(C.x, C.y)
-  context.lineTo(D.x, D.y)
-  context.lineTo(A.x, A.y)
-  context.stroke()
-}
+  context.strokeStyle = colorSquare(square);
+  context.beginPath();
+  context.moveTo(A.x, A.y);
+  context.lineWidth = 2;
+  context.lineTo(B.x, B.y);
+  context.lineTo(C.x, C.y);
+  context.lineTo(D.x, D.y);
+  context.lineTo(A.x, A.y);
+  context.stroke();
+};
 
 export const isCoordsInSquare = square => coords =>
   square.A.x <= coords.x &&
@@ -60,7 +60,7 @@ export const isCoordsInSquare = square => coords =>
   square.C.x >= coords.x &&
   square.C.y >= coords.y &&
   square.D.x <= coords.x &&
-  square.D.y >= coords.y
+  square.D.y >= coords.y;
 
 export const increaseWidth = amount => square => ({
   ...square,
@@ -80,18 +80,18 @@ export const increaseWidth = amount => square => ({
     x: square.D.x - amount,
     y: square.D.y + amount,
   },
-})
+});
 
-export const isSquare = shape => shape.type === 'SQUARE'
+export const isSquare = shape => shape.type === 'SQUARE';
 
 export const overflows = bounds => square =>
   square.A.x <= bounds.A.x ||
   square.A.y <= bounds.A.y ||
   square.C.x >= bounds.C.x ||
-  square.C.y >= bounds.C.y
+  square.C.y >= bounds.C.y;
 
 export const squareArea = square =>
-  (square.D.y - square.A.y) * (square.B.x - square.A.x)
+  (square.D.y - square.A.y) * (square.B.x - square.A.x);
 
 export const squaresIntersect = a => b =>
-  a.A.x <= b.C.x && a.C.x >= b.A.x && a.A.y <= b.C.y && a.C.y >= b.A.y
+  a.A.x <= b.C.x && a.C.x >= b.A.x && a.A.y <= b.C.y && a.C.y >= b.A.y;

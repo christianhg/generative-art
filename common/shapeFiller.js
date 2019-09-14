@@ -8,9 +8,9 @@ import {
   not,
   reject,
   __,
-} from 'ramda'
-import { inBounds } from './bounds'
-import { getCoords, randomElement } from './core'
+} from 'ramda';
+import { inBounds } from './bounds';
+import { getCoords, randomElement } from './core';
 
 export const createShapeFiller = ({
   backgroundColor,
@@ -28,11 +28,11 @@ export const createShapeFiller = ({
   overflows,
 }) => () => {
   const draw = shapes => {
-    context.clearRect(0, 0, canvas.width, canvas.height)
-    context.fillStyle = backgroundColor
-    context.fillRect(0, 0, canvas.width, canvas.height)
-    map(drawShape(context), shapes)
-  }
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.fillStyle = backgroundColor;
+    context.fillRect(0, 0, canvas.width, canvas.height);
+    map(drawShape(context), shapes);
+  };
 
   const canGrow = shapes =>
     compose(
@@ -45,7 +45,7 @@ export const createShapeFiller = ({
         overflows(bounds)
       ),
       increaseShape(1 + margin)
-    )
+    );
 
   const getNextShape = (canGrow, coords, tries = 1) => {
     return coords.length === 0
@@ -63,16 +63,16 @@ export const createShapeFiller = ({
             newCoords: reject(isCoordsInShape(nextShape), coords),
             nextShape,
           })
-        )(createShape(randomElement(coords)))
-  }
+        )(createShape(randomElement(coords)));
+  };
 
   const animate = (coords, shapes, shape) => () => {
     if (canGrow(shapes)(shape)) {
-      draw([...shapes, shape])
+      draw([...shapes, shape]);
 
       window.requestAnimationFrame(
         animate(coords, shapes, increaseShape(1)(shape))
-      )
+      );
     } else {
       getNextShape(
         canGrow([...shapes, shape]),
@@ -84,15 +84,15 @@ export const createShapeFiller = ({
             isBigEnough(shape) ? [...shapes, shape] : shapes,
             nextShape
           )
-        )
-      }, console.log)
+        );
+      }, console.log);
     }
-  }
+  };
 
   getNextShape(
     canGrow([]),
     filter(inBounds(bounds), getCoords(canvas.width, canvas.height))
   ).then(({ newCoords, nextShape }) => {
-    window.requestAnimationFrame(animate(newCoords, [], nextShape))
-  }, console.log)
-}
+    window.requestAnimationFrame(animate(newCoords, [], nextShape));
+  }, console.log);
+};

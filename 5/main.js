@@ -1,6 +1,6 @@
-import { always, compose, cond, gt, lte, prop, __ } from 'ramda'
-import { padCircle } from '../common/bounds'
-import { createCanvas } from '../common/canvas'
+import { always, compose, cond, gt, lte, prop, __ } from 'ramda';
+import { padCircle } from '../common/bounds';
+import { createCanvas } from '../common/canvas';
 import {
   circleOverflowsCircle,
   circlesIntersect,
@@ -8,12 +8,12 @@ import {
   increaseRadius,
   isCoordsInCircle,
   fillCircle,
-} from '../common/circles'
-import { createShapeFiller } from '../common/shapeFiller'
+} from '../common/circles';
+import { createShapeFiller } from '../common/shapeFiller';
 
-const { canvas, context } = createCanvas()
+const { canvas, context } = createCanvas();
 
-document.body.appendChild(canvas)
+document.body.appendChild(canvas);
 
 createShapeFiller({
   backgroundColor: '#ffffff',
@@ -44,4 +44,4 @@ createShapeFiller({
   isBigEnough: circle => circle.radius >= 2,
   margin: 2,
   overflows: circleOverflowsCircle,
-})()
+})();

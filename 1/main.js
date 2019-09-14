@@ -1,5 +1,5 @@
-import { padSquare } from '../common/bounds'
-import { createCanvas } from '../common/canvas'
+import { padSquare } from '../common/bounds';
+import { createCanvas } from '../common/canvas';
 import {
   circleOverflowsSquare,
   circlesIntersect,
@@ -7,13 +7,13 @@ import {
   drawCircle,
   increaseRadius,
   isCoordsInCircle,
-} from '../common/circles'
-import { createShapeFiller } from '../common/shapeFiller'
-import { createSquare } from '../common/squares'
+} from '../common/circles';
+import { createShapeFiller } from '../common/shapeFiller';
+import { createSquare } from '../common/squares';
 
-const { canvas, context } = createCanvas()
+const { canvas, context } = createCanvas();
 
-document.body.appendChild(canvas)
+document.body.appendChild(canvas);
 
 createShapeFiller({
   backgroundColor: '#0b0b0b',
@@ -33,4 +33,4 @@ createShapeFiller({
   isBigEnough: circle => circle.radius >= 2,
   margin: 2,
   overflows: circleOverflowsSquare,
-})()
+})();
